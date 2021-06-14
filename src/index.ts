@@ -1,19 +1,24 @@
 import express from "express";
+import bodyParser from "body-parser";
 const app = express();
 import { listings } from './listings';
 
 const port = 1992;
 
-app.get("/", (_req, res) => {
-  res.send("hello from simple server :)");
-});
+app.use(bodyParser.json())
 //Listings Routes
 app.get('/listings', (_req, res) => {
   return res.send(listings);
 })
 //Delete Listings
-app.delete('/listings/:id', (_req,res) => {
-  
+app.post('/delete-listings', (req,res) => {
+  const id: String = req.body.id;
+  for( let i = 0 ; i < listings.length ; i++ ) {
+    if(listings[i].id === id) {
+      return res.send(listings.splice(i, 1));
+    }
+  }
+  return res.send("Failed to delete listings ... ... ... ")
 })
 
 app.listen(port);
