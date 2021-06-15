@@ -11,7 +11,7 @@ const query = new GraphQLObjectType({
 });
 
 const mutation = new GraphQLObjectType({
-    name: "Query",
+    name: "Mutation",
     fields: {
         hello: {
             type: GraphQLString,
