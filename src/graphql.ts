@@ -1,23 +1,23 @@
-import { GraphQLSchema, GraphQLObjectType , GraphQLString } from 'graphql';
+import { GraphQLSchema, GraphQLObjectType, GraphQLString } from "graphql";
 
 const query = new GraphQLObjectType({
-    name: "Query",
-    fields: {
-        hello: {
-            type: GraphQLString,
-            resolve: () => "Hello from Query"
-        }
-    }
+  name: "Query",
+  fields: {
+    hello: {
+      type: GraphQLString,
+      resolve: () => "Hello from Query",
+    },
+  },
 });
 
 const mutation = new GraphQLObjectType({
-    name: "Mutation",
-    fields: {
-        hello: {
-            type: GraphQLString,
-            resolve: () => "Hello from Mutation"
-        }
-    }
+  name: "Mutation",
+  fields: {
+    hello: {
+      type: GraphQLString,
+      resolve: () => "Hello from Mutation",
+    },
+  },
 });
 
-export const schema = new GraphQLSchema({ query, mutation })
+export const schema = new GraphQLSchema({ query, mutation });
