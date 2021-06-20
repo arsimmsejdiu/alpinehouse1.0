@@ -22,6 +22,6 @@ const mount = async (app: Application) => {
   // console.log(listings);
 };
 
-// vid 4.8 not done
+// vid 4.8 not done https://furrow.studio/  https://www.blobmaker.app/
 
 mount(express());
