@@ -22,4 +22,6 @@ const mount = async (app: Application) => {
   // console.log(listings);
 };
 
+// vid 4.7
+
 mount(express());

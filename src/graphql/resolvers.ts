@@ -1,20 +1,32 @@
 import { IResolvers } from "apollo-server-express";
-import { listings } from "../listings";
+import { Database, Listing } from "../library/types";
+import { ObjectId } from "mongodb";
 
 export const resolvers: IResolvers = {
   Query: {
-    listings: () => {
-      return listings;
+    listings: async (_root: undefined, _args: {}, { db }: { db: Database }) => {
+      return await db.listings.find({}).toArray();
     },
   },
   Mutation: {
-    deleteListing: (_root: undefined, { id }: { id: String }) => {
-      for (let i = 0; i < listings.length; i++) {
-        if (listings[i].id === id) {
-          return listings.splice(i, 1)[0];
-        }
+    deleteListing: async (
+      _root: undefined,
+      { id }: { id: string },
+      { db }: { db: Database }
+    ) => {
+      const deleteRes = await db.listings.findOneAndDelete({
+        _id: new ObjectId(id),
+      });
+
+      if (!deleteRes.value) {
+        throw new Error("Failed to delete listing");
       }
-      throw new Error("Failed to delete listing");
+      return deleteRes.value;
     },
+  },
+  Listing: {
+    // title: (listing: Listing) => listing.title,
+    // image: (listing: Listing) => listing.image,
+    id: (listing: Listing) => listing._id.toString(),
   },
 };
