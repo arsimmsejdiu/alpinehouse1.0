@@ -22,6 +22,6 @@ const mount = async (app: Application) => {
   // console.log(listings);
 };
 
-// vid 4.8
+// vid 4.8 not done
 
 mount(express());
