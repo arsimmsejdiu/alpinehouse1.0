@@ -47,7 +47,7 @@ export const Listings = ({ title }: Props) => {
     >({
       query: DELETE_LISTING,
       variables: {
-        id: "60cc917609fbbd0e7c31ee48",
+        id: "60cc917609fbbd0e7c31ee49",
       },
     });
     console.log(data);
