@@ -1,4 +1,4 @@
-interface Listing {
+export interface Listing {
   id: number;
   title: string;
   image: string;
@@ -9,7 +9,7 @@ interface Listing {
   numOfBaths: number;
 }
 
-export interface ListingData {
+export interface ListingsData {
   listings: Listing[];
 }
 
