@@ -29,8 +29,6 @@ export const listingResolvers: IResolvers = {
     },
   },
   Listing: {
-    // title: (listing: Listing) => listing.title,
-    // image: (listing: Listing) => listing.image,
     id: (listing: Listing) => listing._id.toString(),
   },
 };

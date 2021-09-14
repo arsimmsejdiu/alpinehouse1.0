@@ -1,4 +1,4 @@
-import { server, useQuery } from "../../lib/api";
+import { useQuery, useMutation } from "../../lib/api";
 import {
   ListingsData,
   DeleteListingData,
@@ -34,15 +34,15 @@ interface Props {
 }
 
 export const Listings = ({ title }: Props) => {
-  const { data, refetch, errors, loading } = useQuery<ListingsData>(LISTINGS);
+  const { data, refetch, error, loading } = useQuery<ListingsData>(LISTINGS);
 
-  const deleteListing = async (id: string) => {
-    await server.fetch<DeleteListingData, DeleteListingVariables>({
-      query: DELETE_LISTING,
-      variables: {
-        id,
-      },
-    });
+  const [
+    deleteListing,
+    { loading: deleteListingLoading, error: deleteListingError },
+  ] = useMutation<DeleteListingData, DeleteListingVariables>(DELETE_LISTING);
+
+  const handleDeleteListing = async (id: string) => {
+    await deleteListing({ id });
     refetch();
   };
 
@@ -83,7 +83,7 @@ export const Listings = ({ title }: Props) => {
                   <button
                     className="px-4 py-2 border rounded-full cursor-pointer hover:shadow-lg active:scale-95 
                     active:bg-red-50 transition transform duration-100 ease-out"
-                    onClick={() => deleteListing(listing.id.toString())}
+                    onClick={() => handleDeleteListing(listing.id.toString())}
                   >
                     Delete
                   </button>
@@ -109,23 +109,39 @@ export const Listings = ({ title }: Props) => {
     );
   }
 
-  if (errors) {
+  if (error) {
     return (
       <div className="w-full h-full fixed block top-0 left-0 bg-white opacity-75 z-50">
         <span
           className="text-red-600 bg-red-200 text-3xl p-5 opacity-75 top-1/2 my-0 mx-auto flex items-center justify-center relative w-[300] h-[200]"
           style={{ top: "50%" }}
         >
-          <h2 className="animate-bounce">Uh oh! Something went wrong - please try again later ... </h2>
+          <h2 className="animate-bounce">
+            Uh oh! Something went wrong - please try again later ...{" "}
+          </h2>
         </span>
       </div>
     );
   }
 
+  const deleteListingLoadingMessage = deleteListingLoading ? (
+    <h4>Deletion in progress...</h4>
+  ) : null;
+
+  const deleteListingErrorMessage = deleteListingError ? (
+    <h4>
+      Uh oh! Something went wrong with deleting :(. Please try again soon.
+    </h4>
+  ) : null;
+
   return (
     <div>
-      <h1 className="text-gray-900 p-10 text-4xl mt-10 animate-pulse font-bold">{title}</h1>
+      <h1 className="text-gray-900 p-10 text-4xl mt-10 animate-pulse font-bold">
+        {title}
+      </h1>
       {listingList}
+      {deleteListingLoadingMessage}
+      {deleteListingErrorMessage}
     </div>
   );
 };

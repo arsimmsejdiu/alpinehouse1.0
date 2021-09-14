@@ -1,22 +1,23 @@
 import { useState, useEffect, useCallback } from "react";
 import { server } from "./server";
+
 interface State<TData> {
   data: TData | null;
   loading: boolean;
-  errors: boolean;
+  error: boolean;
 }
 
 export const useQuery = <TData = any>(query: string) => {
   const [state, setState] = useState<State<TData>>({
     data: null,
     loading: false,
-    errors: false,
+    error: false,
   });
 
   const fetch = useCallback(() => {
     const fetchApi = async () => {
       try {
-        setState({ data: null, loading: true, errors: false });
+        setState({ data: null, loading: true, error: false });
 
         const { data, errors } = await server.fetch<TData>({ query });
 
@@ -24,9 +25,9 @@ export const useQuery = <TData = any>(query: string) => {
           throw new Error(errors[0].message);
         }
 
-        setState({ data, loading: false, errors: false });
+        setState({ data, loading: false, error: false });
       } catch (error) {
-        setState({ data: null, loading: false, errors: true});
+        setState({ data: null, loading: false, error: true});
         throw console.log(error)
       }
     };
